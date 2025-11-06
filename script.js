@@ -14,15 +14,31 @@ function checkPassword(nextPage){
     }
 }
 
-// Autoplay aman di page2
+// Audio setup untuk page2
+let autoAudio;
+let manualAudio;
+
 function initAudio(){
-    let autoAudio = new Audio("music/autoplay.mp3");
+    // Autoplay audio
+    autoAudio = new Audio("music/autoplay.mp3");
     autoAudio.loop = true;
+    autoAudio.volume = 0.6;
     autoAudio.play().catch(()=>console.log("Autoplay diblokir browser, diam saja."));
-    
+
+    // Manual audio object
+    manualAudio = new Audio("music/manual.mp3");
+    manualAudio.loop = true;
+    manualAudio.volume = 0.6;
+
+    // Tombol play/pause manual
     window.playManualMusic = function(){
-        let manualAudio = new Audio("music/manual.mp3");
-        manualAudio.loop = true;
-        manualAudio.play().catch(()=>console.log("Audio manual diblokir."));
+        if(manualAudio.paused){
+            manualAudio.play().catch(e=>{
+                console.log("Audio manual diblokir:", e);
+                alert("Klik tombol sekali lagi jika audio tidak muncul.");
+            });
+        } else {
+            manualAudio.pause();
+        }
     }
 }
